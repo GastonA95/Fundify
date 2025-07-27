@@ -146,57 +146,175 @@ function DesignEditor({
         />
       ) : null;
 
-    if (selectedLayout === "single") {
-      return (
-        <div
-          id="single-window-canvas"
-          ref={canvasRef}
-          className="w-full h-full relative"
-          style={{ backgroundColor: canvasBackgroundColor }}
-          onClick={(e) => {
-            // Deseleccionar elemento si se hace clic en el fondo del lienzo
-            if (e.target === canvasRef.current) {
-              onSetActiveElement(null);
-            }
-          }}
-        >
-          {elementsToRender} {/* Los elementos de diseño van primero */}
-          {caseFrameOverlay} {/* El marco de la funda va encima */}
-        </div>
-      );
-    } else {
-      // Para el diseño de ventanas múltiples, los elementos se añaden a la primera ventana por simplicidad en este prototipo.
-      // En una aplicación real, necesitarías lógica para seleccionar a qué ventana añadir.
-      return (
-        <div
-          id="multiple-window-canvas"
-          ref={canvasRef}
-          className="w-full h-full grid grid-cols-2 grid-rows-2 gap-2 p-2"
-          onClick={(e) => {
-            // Deseleccionar elemento si se hace clic en el fondo del lienzo
-            if (
-              e.target.classList.contains("window") ||
-              e.target === canvasRef.current
-            ) {
-              onSetActiveElement(null);
-            }
-          }}
-        >
-          {[...Array(4)].map((_, index) => (
-            <div
-              key={index}
-              className="window bg-gray-50 rounded-lg relative"
-              style={{ backgroundColor: canvasBackgroundColor }}
-            >
-              {index === 0 && elementsToRender}{" "}
-              {/* Solo renderizar elementos en la primera ventana por ahora */}
-              {caseFrameOverlay}{" "}
-              {/* El marco de la funda va encima en cada ventana */}
+    const renderLayoutContent = () => {
+      switch (selectedLayout) {
+        case "single":
+          return (
+            <div className="w-full h-full relative">
+              {elementsToRender}
+              {caseFrameOverlay}
             </div>
-          ))}
-        </div>
-      );
-    }
+          );
+
+        case "horizontal-2":
+          return (
+            <div className="w-full h-full relative">
+              <div className="absolute inset-0 flex flex-col gap-1 p-1">
+                <div className="flex-1 bg-white rounded border-2 border-dashed border-gray-300 flex items-center justify-center">
+                  <span className="text-gray-400 text-sm">Sección 1</span>
+                </div>
+                <div className="flex-1 bg-white rounded border-2 border-dashed border-gray-300 flex items-center justify-center">
+                  <span className="text-gray-400 text-sm">Sección 2</span>
+                </div>
+              </div>
+              {elementsToRender}
+              {caseFrameOverlay}
+            </div>
+          );
+
+        case "horizontal-3":
+          return (
+            <div className="w-full h-full relative">
+              <div className="absolute inset-0 flex flex-col gap-1 p-1">
+                <div className="flex-1 bg-white rounded border-2 border-dashed border-gray-300 flex items-center justify-center">
+                  <span className="text-gray-400 text-sm">Sección 1</span>
+                </div>
+                <div className="flex-1 bg-white rounded border-2 border-dashed border-gray-300 flex items-center justify-center">
+                  <span className="text-gray-400 text-sm">Sección 2</span>
+                </div>
+                <div className="flex-1 bg-white rounded border-2 border-dashed border-gray-300 flex items-center justify-center">
+                  <span className="text-gray-400 text-sm">Sección 3</span>
+                </div>
+              </div>
+              {elementsToRender}
+              {caseFrameOverlay}
+            </div>
+          );
+
+        case "vertical-2":
+          return (
+            <div className="w-full h-full relative">
+              <div className="absolute inset-0 flex gap-1 p-1">
+                <div className="flex-1 bg-white rounded border-2 border-dashed border-gray-300 flex items-center justify-center">
+                  <span className="text-gray-400 text-sm">Sección 1</span>
+                </div>
+                <div className="flex-1 bg-white rounded border-2 border-dashed border-gray-300 flex items-center justify-center">
+                  <span className="text-gray-400 text-sm">Sección 2</span>
+                </div>
+              </div>
+              {elementsToRender}
+              {caseFrameOverlay}
+            </div>
+          );
+
+        case "grid-2x2":
+          return (
+            <div className="w-full h-full relative">
+              <div className="absolute inset-0 grid grid-cols-2 grid-rows-2 gap-1 p-1">
+                <div className="bg-white rounded border-2 border-dashed border-gray-300 flex items-center justify-center">
+                  <span className="text-gray-400 text-sm">Sección 1</span>
+                </div>
+                <div className="bg-white rounded border-2 border-dashed border-gray-300 flex items-center justify-center">
+                  <span className="text-gray-400 text-sm">Sección 2</span>
+                </div>
+                <div className="bg-white rounded border-2 border-dashed border-gray-300 flex items-center justify-center">
+                  <span className="text-gray-400 text-sm">Sección 3</span>
+                </div>
+                <div className="bg-white rounded border-2 border-dashed border-gray-300 flex items-center justify-center">
+                  <span className="text-gray-400 text-sm">Sección 4</span>
+                </div>
+              </div>
+              {elementsToRender}
+              {caseFrameOverlay}
+            </div>
+          );
+
+        case "mixed-left":
+          return (
+            <div className="w-full h-full relative">
+              <div className="absolute inset-0 flex gap-1 p-1">
+                <div className="flex-1 bg-white rounded border-2 border-dashed border-gray-300 flex items-center justify-center">
+                  <span className="text-gray-400 text-sm">Principal</span>
+                </div>
+                <div className="w-1/3 flex flex-col gap-1">
+                  <div className="flex-1 bg-white rounded border-2 border-dashed border-gray-300 flex items-center justify-center">
+                    <span className="text-gray-400 text-xs">Sec. 1</span>
+                  </div>
+                  <div className="flex-1 bg-white rounded border-2 border-dashed border-gray-300 flex items-center justify-center">
+                    <span className="text-gray-400 text-xs">Sec. 2</span>
+                  </div>
+                </div>
+              </div>
+              {elementsToRender}
+              {caseFrameOverlay}
+            </div>
+          );
+
+        case "mixed-top":
+          return (
+            <div className="w-full h-full relative">
+              <div className="absolute inset-0 flex flex-col gap-1 p-1">
+                <div className="flex-1 bg-white rounded border-2 border-dashed border-gray-300 flex items-center justify-center">
+                  <span className="text-gray-400 text-sm">Principal</span>
+                </div>
+                <div className="h-1/3 flex gap-1">
+                  <div className="flex-1 bg-white rounded border-2 border-dashed border-gray-300 flex items-center justify-center">
+                    <span className="text-gray-400 text-xs">Sec. 1</span>
+                  </div>
+                  <div className="flex-1 bg-white rounded border-2 border-dashed border-gray-300 flex items-center justify-center">
+                    <span className="text-gray-400 text-xs">Sec. 2</span>
+                  </div>
+                </div>
+              </div>
+              {elementsToRender}
+              {caseFrameOverlay}
+            </div>
+          );
+
+        case "grid-3x3":
+          return (
+            <div className="w-full h-full relative">
+              <div className="absolute inset-0 grid grid-cols-3 grid-rows-3 gap-1 p-1">
+                {[...Array(9)].map((_, index) => (
+                  <div
+                    key={index}
+                    className="bg-white rounded border-2 border-dashed border-gray-300 flex items-center justify-center"
+                  >
+                    <span className="text-gray-400 text-xs">{index + 1}</span>
+                  </div>
+                ))}
+              </div>
+              {elementsToRender}
+              {caseFrameOverlay}
+            </div>
+          );
+
+        default:
+          return (
+            <div className="w-full h-full relative">
+              {elementsToRender}
+              {caseFrameOverlay}
+            </div>
+          );
+      }
+    };
+
+    return (
+      <div
+        id="canvas-content"
+        ref={canvasRef}
+        className="w-full h-full relative"
+        style={{ backgroundColor: canvasBackgroundColor }}
+        onClick={(e) => {
+          // Deseleccionar elemento si se hace clic en el fondo del lienzo
+          if (e.target === canvasRef.current || e.target.classList.contains("border-dashed")) {
+            onSetActiveElement(null);
+          }
+        }}
+      >
+        {renderLayoutContent()}
+      </div>
+    );
   };
 
   return (
