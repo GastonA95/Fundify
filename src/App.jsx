@@ -249,6 +249,8 @@ function App() {
       isCropModalOpen: false,
       imageToCrop: null,
       isPreviewModalOpen: false,
+      sectionImages: {},
+      activeSectionId: null,
     });
   }, []);
 
