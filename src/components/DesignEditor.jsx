@@ -9,6 +9,8 @@ function DesignEditor({
   editorElements,
   activeElement,
   canvasBackgroundColor,
+  sectionImages,
+  activeSectionId,
   onAddElement,
   onUpdateElement,
   onDeleteElement,
@@ -16,6 +18,8 @@ function DesignEditor({
   onSetCanvasBackgroundColor,
   onOpenCropModal,
   onOpenPreviewModal,
+  onSectionClick,
+  onGalleryImageToSection,
   onBack,
 }) {
   const [editorMode, setEditorMode] = useState("move"); // 'move', 'resize', 'rotate'
