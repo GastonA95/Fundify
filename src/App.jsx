@@ -292,6 +292,8 @@ function App() {
             editorElements={appState.editorElements}
             activeElement={appState.activeElement}
             canvasBackgroundColor={appState.canvasBackgroundColor}
+            sectionImages={appState.sectionImages}
+            activeSectionId={appState.activeSectionId}
             onAddElement={handleAddEditorElement}
             onUpdateElement={handleUpdateEditorElement}
             onDeleteElement={handleDeleteEditorElement}
@@ -299,6 +301,8 @@ function App() {
             onSetCanvasBackgroundColor={handleSetCanvasBackgroundColor}
             onOpenCropModal={handleOpenCropModal}
             onOpenPreviewModal={handleOpenPreviewModal}
+            onSectionClick={handleSectionClick}
+            onGalleryImageToSection={handleGalleryImageToSection}
             onBack={() => goToStep(4)}
           />
         );
