@@ -18,3 +18,20 @@ body,
   object-fit: contain;
   pointer-events: none;
 }
+
+/* Canvas container styling */
+.canvas-container {
+  height: 500px; /* Altura fija para el canvas */
+  min-height: 500px;
+}
+
+#phone-canvas-container {
+  height: 500px;
+  min-height: 500px;
+}
+
+#single-window-canvas,
+#multiple-window-canvas {
+  height: 100%;
+  min-height: 500px;
+}
