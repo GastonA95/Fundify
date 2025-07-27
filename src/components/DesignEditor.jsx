@@ -147,6 +147,16 @@ function DesignEditor({
       ) : null;
 
     const renderLayoutContent = () => {
+      // Área interior del teléfono (ajustada para quedar dentro del marco)
+      const phoneInteriorStyle = {
+        position: 'absolute',
+        top: '8%',    // Margen superior para evitar la cámara
+        left: '6%',   // Margen izquierdo del marco
+        right: '6%',  // Margen derecho del marco  
+        bottom: '6%', // Margen inferior del marco
+        zIndex: 1
+      };
+
       switch (selectedLayout) {
         case "single":
           return (
@@ -159,12 +169,14 @@ function DesignEditor({
         case "horizontal-2":
           return (
             <div className="w-full h-full relative">
-              <div className="absolute inset-0 flex flex-col gap-1 p-1">
-                <div className="flex-1 bg-white rounded border-2 border-dashed border-gray-300 flex items-center justify-center">
-                  <span className="text-gray-400 text-sm">Sección 1</span>
-                </div>
-                <div className="flex-1 bg-white rounded border-2 border-dashed border-gray-300 flex items-center justify-center">
-                  <span className="text-gray-400 text-sm">Sección 2</span>
+              <div style={phoneInteriorStyle}>
+                <div className="w-full h-full flex flex-col gap-1">
+                  <div className="flex-1 bg-gray-50 rounded border border-gray-300 flex items-center justify-center opacity-70">
+                    <span className="text-gray-500 text-xs">Sección 1</span>
+                  </div>
+                  <div className="flex-1 bg-gray-50 rounded border border-gray-300 flex items-center justify-center opacity-70">
+                    <span className="text-gray-500 text-xs">Sección 2</span>
+                  </div>
                 </div>
               </div>
               {elementsToRender}
@@ -175,15 +187,17 @@ function DesignEditor({
         case "horizontal-3":
           return (
             <div className="w-full h-full relative">
-              <div className="absolute inset-0 flex flex-col gap-1 p-1">
-                <div className="flex-1 bg-white rounded border-2 border-dashed border-gray-300 flex items-center justify-center">
-                  <span className="text-gray-400 text-sm">Sección 1</span>
-                </div>
-                <div className="flex-1 bg-white rounded border-2 border-dashed border-gray-300 flex items-center justify-center">
-                  <span className="text-gray-400 text-sm">Sección 2</span>
-                </div>
-                <div className="flex-1 bg-white rounded border-2 border-dashed border-gray-300 flex items-center justify-center">
-                  <span className="text-gray-400 text-sm">Sección 3</span>
+              <div style={phoneInteriorStyle}>
+                <div className="w-full h-full flex flex-col gap-1">
+                  <div className="flex-1 bg-gray-50 rounded border border-gray-300 flex items-center justify-center opacity-70">
+                    <span className="text-gray-500 text-xs">Sección 1</span>
+                  </div>
+                  <div className="flex-1 bg-gray-50 rounded border border-gray-300 flex items-center justify-center opacity-70">
+                    <span className="text-gray-500 text-xs">Sección 2</span>
+                  </div>
+                  <div className="flex-1 bg-gray-50 rounded border border-gray-300 flex items-center justify-center opacity-70">
+                    <span className="text-gray-500 text-xs">Sección 3</span>
+                  </div>
                 </div>
               </div>
               {elementsToRender}
@@ -194,12 +208,14 @@ function DesignEditor({
         case "vertical-2":
           return (
             <div className="w-full h-full relative">
-              <div className="absolute inset-0 flex gap-1 p-1">
-                <div className="flex-1 bg-white rounded border-2 border-dashed border-gray-300 flex items-center justify-center">
-                  <span className="text-gray-400 text-sm">Sección 1</span>
-                </div>
-                <div className="flex-1 bg-white rounded border-2 border-dashed border-gray-300 flex items-center justify-center">
-                  <span className="text-gray-400 text-sm">Sección 2</span>
+              <div style={phoneInteriorStyle}>
+                <div className="w-full h-full flex gap-1">
+                  <div className="flex-1 bg-gray-50 rounded border border-gray-300 flex items-center justify-center opacity-70">
+                    <span className="text-gray-500 text-xs">Sección 1</span>
+                  </div>
+                  <div className="flex-1 bg-gray-50 rounded border border-gray-300 flex items-center justify-center opacity-70">
+                    <span className="text-gray-500 text-xs">Sección 2</span>
+                  </div>
                 </div>
               </div>
               {elementsToRender}
@@ -210,18 +226,20 @@ function DesignEditor({
         case "grid-2x2":
           return (
             <div className="w-full h-full relative">
-              <div className="absolute inset-0 grid grid-cols-2 grid-rows-2 gap-1 p-1">
-                <div className="bg-white rounded border-2 border-dashed border-gray-300 flex items-center justify-center">
-                  <span className="text-gray-400 text-sm">Sección 1</span>
-                </div>
-                <div className="bg-white rounded border-2 border-dashed border-gray-300 flex items-center justify-center">
-                  <span className="text-gray-400 text-sm">Sección 2</span>
-                </div>
-                <div className="bg-white rounded border-2 border-dashed border-gray-300 flex items-center justify-center">
-                  <span className="text-gray-400 text-sm">Sección 3</span>
-                </div>
-                <div className="bg-white rounded border-2 border-dashed border-gray-300 flex items-center justify-center">
-                  <span className="text-gray-400 text-sm">Sección 4</span>
+              <div style={phoneInteriorStyle}>
+                <div className="w-full h-full grid grid-cols-2 grid-rows-2 gap-1">
+                  <div className="bg-gray-50 rounded border border-gray-300 flex items-center justify-center opacity-70">
+                    <span className="text-gray-500 text-xs">1</span>
+                  </div>
+                  <div className="bg-gray-50 rounded border border-gray-300 flex items-center justify-center opacity-70">
+                    <span className="text-gray-500 text-xs">2</span>
+                  </div>
+                  <div className="bg-gray-50 rounded border border-gray-300 flex items-center justify-center opacity-70">
+                    <span className="text-gray-500 text-xs">3</span>
+                  </div>
+                  <div className="bg-gray-50 rounded border border-gray-300 flex items-center justify-center opacity-70">
+                    <span className="text-gray-500 text-xs">4</span>
+                  </div>
                 </div>
               </div>
               {elementsToRender}
@@ -232,16 +250,18 @@ function DesignEditor({
         case "mixed-left":
           return (
             <div className="w-full h-full relative">
-              <div className="absolute inset-0 flex gap-1 p-1">
-                <div className="flex-1 bg-white rounded border-2 border-dashed border-gray-300 flex items-center justify-center">
-                  <span className="text-gray-400 text-sm">Principal</span>
-                </div>
-                <div className="w-1/3 flex flex-col gap-1">
-                  <div className="flex-1 bg-white rounded border-2 border-dashed border-gray-300 flex items-center justify-center">
-                    <span className="text-gray-400 text-xs">Sec. 1</span>
+              <div style={phoneInteriorStyle}>
+                <div className="w-full h-full flex gap-1">
+                  <div className="flex-1 bg-gray-50 rounded border border-gray-300 flex items-center justify-center opacity-70">
+                    <span className="text-gray-500 text-xs">Principal</span>
                   </div>
-                  <div className="flex-1 bg-white rounded border-2 border-dashed border-gray-300 flex items-center justify-center">
-                    <span className="text-gray-400 text-xs">Sec. 2</span>
+                  <div className="w-1/3 flex flex-col gap-1">
+                    <div className="flex-1 bg-gray-50 rounded border border-gray-300 flex items-center justify-center opacity-70">
+                      <span className="text-gray-500 text-xs">1</span>
+                    </div>
+                    <div className="flex-1 bg-gray-50 rounded border border-gray-300 flex items-center justify-center opacity-70">
+                      <span className="text-gray-500 text-xs">2</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -253,16 +273,18 @@ function DesignEditor({
         case "mixed-top":
           return (
             <div className="w-full h-full relative">
-              <div className="absolute inset-0 flex flex-col gap-1 p-1">
-                <div className="flex-1 bg-white rounded border-2 border-dashed border-gray-300 flex items-center justify-center">
-                  <span className="text-gray-400 text-sm">Principal</span>
-                </div>
-                <div className="h-1/3 flex gap-1">
-                  <div className="flex-1 bg-white rounded border-2 border-dashed border-gray-300 flex items-center justify-center">
-                    <span className="text-gray-400 text-xs">Sec. 1</span>
+              <div style={phoneInteriorStyle}>
+                <div className="w-full h-full flex flex-col gap-1">
+                  <div className="flex-1 bg-gray-50 rounded border border-gray-300 flex items-center justify-center opacity-70">
+                    <span className="text-gray-500 text-xs">Principal</span>
                   </div>
-                  <div className="flex-1 bg-white rounded border-2 border-dashed border-gray-300 flex items-center justify-center">
-                    <span className="text-gray-400 text-xs">Sec. 2</span>
+                  <div className="h-1/3 flex gap-1">
+                    <div className="flex-1 bg-gray-50 rounded border border-gray-300 flex items-center justify-center opacity-70">
+                      <span className="text-gray-500 text-xs">1</span>
+                    </div>
+                    <div className="flex-1 bg-gray-50 rounded border border-gray-300 flex items-center justify-center opacity-70">
+                      <span className="text-gray-500 text-xs">2</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -274,15 +296,17 @@ function DesignEditor({
         case "grid-3x3":
           return (
             <div className="w-full h-full relative">
-              <div className="absolute inset-0 grid grid-cols-3 grid-rows-3 gap-1 p-1">
-                {[...Array(9)].map((_, index) => (
-                  <div
-                    key={index}
-                    className="bg-white rounded border-2 border-dashed border-gray-300 flex items-center justify-center"
-                  >
-                    <span className="text-gray-400 text-xs">{index + 1}</span>
-                  </div>
-                ))}
+              <div style={phoneInteriorStyle}>
+                <div className="w-full h-full grid grid-cols-3 grid-rows-3 gap-1">
+                  {[...Array(9)].map((_, index) => (
+                    <div
+                      key={index}
+                      className="bg-gray-50 rounded border border-gray-300 flex items-center justify-center opacity-70"
+                    >
+                      <span className="text-gray-500 text-xs">{index + 1}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
               {elementsToRender}
               {caseFrameOverlay}
@@ -307,7 +331,7 @@ function DesignEditor({
         style={{ backgroundColor: canvasBackgroundColor }}
         onClick={(e) => {
           // Deseleccionar elemento si se hace clic en el fondo del lienzo
-          if (e.target === canvasRef.current || e.target.classList.contains("border-dashed")) {
+          if (e.target === canvasRef.current || e.target.classList.contains("border-gray-300")) {
             onSetActiveElement(null);
           }
         }}
