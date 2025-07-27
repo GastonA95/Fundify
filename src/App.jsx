@@ -156,11 +156,12 @@ function App() {
     }));
   }, []);
 
-  const handleOpenCropModal = useCallback((imageSrc) => {
+  const handleOpenCropModal = useCallback((imageSrc, sectionId = null) => {
     setAppState((prevState) => ({
       ...prevState,
       isCropModalOpen: true,
       imageToCrop: imageSrc,
+      activeSectionId: sectionId, // Guardar qué sección está siendo editada
     }));
   }, []);
 
@@ -169,15 +170,48 @@ function App() {
       ...prevState,
       isCropModalOpen: false,
       imageToCrop: null,
+      activeSectionId: null,
     }));
   }, []);
 
   const handleApplyCroppedImage = useCallback(
     (croppedImage) => {
-      handleAddEditorElement({ type: "image", src: croppedImage });
+      if (appState.activeSectionId) {
+        // Si hay una sección activa, agregar la imagen a esa sección específica
+        setAppState((prevState) => ({
+          ...prevState,
+          sectionImages: {
+            ...prevState.sectionImages,
+            [appState.activeSectionId]: croppedImage,
+          },
+        }));
+      } else {
+        // Si no hay sección activa, usar el comportamiento original
+        handleAddEditorElement({ type: "image", src: croppedImage });
+      }
       handleCloseCropModal();
     },
-    [handleAddEditorElement, handleCloseCropModal]
+    [appState.activeSectionId, handleAddEditorElement, handleCloseCropModal]
+  );
+
+  // Nueva función para manejar clic en sección de grilla
+  const handleSectionClick = useCallback((sectionId, imageSrc = null) => {
+    if (imageSrc) {
+      // Si ya hay una imagen, abrirla para editar
+      handleOpenCropModal(imageSrc, sectionId);
+    } else {
+      // Si no hay imagen, permitir seleccionar de la galería o subir nueva
+      setAppState((prevState) => ({
+        ...prevState,
+        activeSectionId: sectionId,
+      }));
+    }
+  }, [handleOpenCropModal]);
+
+  // Nueva función para agregar imagen desde galería a sección específica
+  const handleGalleryImageToSection = useCallback((imageSrc, sectionId) => {
+    handleOpenCropModal(imageSrc, sectionId);
+  }, [handleOpenCropModal]);
   );
 
   const handleOpenPreviewModal = useCallback(() => {
