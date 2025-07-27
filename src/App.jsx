@@ -30,6 +30,9 @@ function App() {
     isCropModalOpen: false,
     imageToCrop: null,
     isPreviewModalOpen: false,
+    // Nuevo: imágenes por sección de grilla
+    sectionImages: {},
+    activeSectionId: null, // Para saber qué sección está siendo editada
   });
 
   useEffect(() => {
