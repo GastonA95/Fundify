@@ -147,12 +147,8 @@ function LayoutSelection({ onSelectLayout, selectedLayout, onBack }) {
               <div className="bg-gray-100 aspect-[3/4] rounded-lg mb-3 p-2">
                 {layout.preview}
               </div>
-              <h3 className="text-sm font-semibold text-center mb-1">
-                {layout.name}
-              </h3>
-              <p className="text-xs text-gray-600 text-center">
-                {layout.description}
-              </p>
+              <h3 className="text-xl font-semibold mb-2">{layout.name}</h3>
+              <p className="text-gray-600">{layout.description}</p>
             </div>
           ))}
         </div>

@@ -18,9 +18,6 @@ function DesignEditor({
   onSetCanvasBackgroundColor,
   onOpenCropModal,
   onOpenPreviewModal,
-  onSectionClick,
-  onGalleryImageToSection,
-  onClearActiveSection,
   onBack,
 }) {
   const [editorMode, setEditorMode] = useState("move"); // 'move', 'resize', 'rotate'
@@ -181,241 +178,57 @@ function DesignEditor({
       />
     ) : null;
 
-    const renderLayoutContent = () => {
-      // Área interior del teléfono (márgenes más amplios para que la grilla esté completamente dentro)
-      const phoneInteriorStyle = {
-        position: "absolute",
-        top: "18%", // Margen superior más amplio para la cámara y borde superior
-        left: "15%", // Margen izquierdo más amplio
-        right: "15%", // Margen derecho más amplio
-        bottom: "15%", // Margen inferior más amplio
-        zIndex: 1, // Detrás del marco de la funda
-      };
-
-      switch (selectedLayout) {
-        case "single":
-          return (
-            <div className="w-full h-full relative">
-              {elementsToRender}
-              {caseFrameOverlay}
+    if (selectedLayout === "single") {
+      return (
+        <div
+          id="single-window-canvas"
+          ref={canvasRef}
+          className="w-full h-full relative"
+          style={{ backgroundColor: canvasBackgroundColor }}
+          onClick={(e) => {
+            // Deseleccionar elemento si se hace clic en el fondo del lienzo
+            if (e.target === canvasRef.current) {
+              onSetActiveElement(null);
+            }
+          }}
+        >
+          {elementsToRender} {/* Los elementos de diseño van primero */}
+          {caseFrameOverlay} {/* El marco de la funda va encima */}
+        </div>
+      );
+    } else {
+      // Para el diseño de ventanas múltiples, los elementos se añaden a la primera ventana por simplicidad en este prototipo.
+      // En una aplicación real, necesitarías lógica para seleccionar a qué ventana añadir.
+      return (
+        <div
+          id="multiple-window-canvas"
+          ref={canvasRef}
+          className="w-full h-full grid grid-cols-2 grid-rows-2 gap-2 p-2"
+          onClick={(e) => {
+            // Deseleccionar elemento si se hace clic en el fondo del lienzo
+            if (
+              e.target.classList.contains("window") ||
+              e.target === canvasRef.current
+            ) {
+              onSetActiveElement(null);
+            }
+          }}
+        >
+          {[...Array(4)].map((_, index) => (
+            <div
+              key={index}
+              className="window bg-gray-50 rounded-lg relative"
+              style={{ backgroundColor: canvasBackgroundColor }}
+            >
+              {index === 0 && elementsToRender}{" "}
+              {/* Solo renderizar elementos en la primera ventana por ahora */}
+              {caseFrameOverlay}{" "}
+              {/* El marco de la funda va encima en cada ventana */}
             </div>
-          );
-
-        case "horizontal-2":
-          return (
-            <div className="w-full h-full relative">
-              <div style={phoneInteriorStyle}>
-                <div className="w-full h-full flex flex-col gap-1">
-                  <div className="flex-1 bg-gray-50 rounded border border-gray-300 flex items-center justify-center opacity-70">
-                    <span className="text-gray-500 text-xs">Sección 1</span>
-                  </div>
-                  <div className="flex-1 bg-gray-50 rounded border border-gray-300 flex items-center justify-center opacity-70">
-                    <span className="text-gray-500 text-xs">Sección 2</span>
-                  </div>
-                </div>
-              </div>
-              {elementsToRender}
-              {caseFrameOverlay}
-            </div>
-          );
-
-        case "horizontal-3":
-          return (
-            <div className="w-full h-full relative">
-              <div style={phoneInteriorStyle}>
-                <div className="w-full h-full flex flex-col gap-1">
-                  <div className="flex-1 bg-gray-50 rounded border border-gray-300 flex items-center justify-center opacity-70">
-                    <span className="text-gray-500 text-xs">Sección 1</span>
-                  </div>
-                  <div className="flex-1 bg-gray-50 rounded border border-gray-300 flex items-center justify-center opacity-70">
-                    <span className="text-gray-500 text-xs">Sección 2</span>
-                  </div>
-                  <div className="flex-1 bg-gray-50 rounded border border-gray-300 flex items-center justify-center opacity-70">
-                    <span className="text-gray-500 text-xs">Sección 3</span>
-                  </div>
-                </div>
-              </div>
-              {elementsToRender}
-              {caseFrameOverlay}
-            </div>
-          );
-
-        case "vertical-2":
-          return (
-            <div className="w-full h-full relative">
-              <div style={phoneInteriorStyle}>
-                <div className="w-full h-full flex gap-1">
-                  <div className="flex-1 bg-gray-50 rounded border border-gray-300 flex items-center justify-center opacity-70">
-                    <span className="text-gray-500 text-xs">Sección 1</span>
-                  </div>
-                  <div className="flex-1 bg-gray-50 rounded border border-gray-300 flex items-center justify-center opacity-70">
-                    <span className="text-gray-500 text-xs">Sección 2</span>
-                  </div>
-                </div>
-              </div>
-              {elementsToRender}
-              {caseFrameOverlay}
-            </div>
-          );
-
-        case "grid-2x2":
-          return (
-            <div className="w-full h-full relative">
-              <div style={phoneInteriorStyle}>
-                <div className="w-full h-full grid grid-cols-2 grid-rows-2 gap-1">
-                  {[1, 2, 3, 4].map((sectionId) => (
-                    <div
-                      key={sectionId}
-                      className="relative rounded border-2 border-dashed border-gray-300 cursor-pointer transition-all duration-200 hover:border-blue-400 hover:bg-blue-50 overflow-hidden group"
-                      onClick={() =>
-                        onSectionClick(sectionId, sectionImages[sectionId])
-                      }
-                      style={{
-                        backgroundColor: sectionImages[sectionId]
-                          ? "transparent"
-                          : "#f9fafb",
-                      }}
-                    >
-                      {sectionImages[sectionId] ? (
-                        <>
-                          <img
-                            src={sectionImages[sectionId]}
-                            alt={`Sección ${sectionId}`}
-                            className="w-full h-full object-cover"
-                            style={{
-                              position: "absolute",
-                              top: 0,
-                              left: 0,
-                              width: "100%",
-                              height: "100%",
-                            }}
-                          />
-                          <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-200 flex items-center justify-center z-10">
-                            <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-center">
-                              <i className="fas fa-edit text-white text-sm"></i>
-                              <p className="text-white text-xs mt-1">Editar</p>
-                            </div>
-                          </div>
-                        </>
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center">
-                          <div className="text-center opacity-70 group-hover:opacity-100 transition-opacity duration-200">
-                            <i className="fas fa-plus text-gray-400 group-hover:text-blue-500 text-sm mb-1"></i>
-                            <p className="text-gray-500 group-hover:text-blue-600 text-xs font-medium">
-                              {sectionId}
-                            </p>
-                            <p className="text-gray-400 group-hover:text-blue-500 text-xs">
-                              Clic
-                            </p>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-              {/* Renderizar elementos regulares del editor por debajo de la grilla */}
-              <div style={{ zIndex: 0 }}>{elementsToRender}</div>
-              {/* Marco de la funda siempre en la parte superior */}
-              {caseFrameOverlay}
-            </div>
-          );
-
-        case "mixed-left":
-          return (
-            <div className="w-full h-full relative">
-              <div style={phoneInteriorStyle}>
-                <div className="w-full h-full flex gap-1">
-                  <div className="flex-1 bg-gray-50 rounded border border-gray-300 flex items-center justify-center opacity-70">
-                    <span className="text-gray-500 text-xs">Principal</span>
-                  </div>
-                  <div className="w-1/3 flex flex-col gap-1">
-                    <div className="flex-1 bg-gray-50 rounded border border-gray-300 flex items-center justify-center opacity-70">
-                      <span className="text-gray-500 text-xs">1</span>
-                    </div>
-                    <div className="flex-1 bg-gray-50 rounded border border-gray-300 flex items-center justify-center opacity-70">
-                      <span className="text-gray-500 text-xs">2</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {elementsToRender}
-              {caseFrameOverlay}
-            </div>
-          );
-
-        case "mixed-top":
-          return (
-            <div className="w-full h-full relative">
-              <div style={phoneInteriorStyle}>
-                <div className="w-full h-full flex flex-col gap-1">
-                  <div className="flex-1 bg-gray-50 rounded border border-gray-300 flex items-center justify-center opacity-70">
-                    <span className="text-gray-500 text-xs">Principal</span>
-                  </div>
-                  <div className="h-1/3 flex gap-1">
-                    <div className="flex-1 bg-gray-50 rounded border border-gray-300 flex items-center justify-center opacity-70">
-                      <span className="text-gray-500 text-xs">1</span>
-                    </div>
-                    <div className="flex-1 bg-gray-50 rounded border border-gray-300 flex items-center justify-center opacity-70">
-                      <span className="text-gray-500 text-xs">2</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {elementsToRender}
-              {caseFrameOverlay}
-            </div>
-          );
-
-        case "grid-3x3":
-          return (
-            <div className="w-full h-full relative">
-              <div style={phoneInteriorStyle}>
-                <div className="w-full h-full grid grid-cols-3 grid-rows-3 gap-1">
-                  {[...Array(9)].map((_, index) => (
-                    <div
-                      key={index}
-                      className="bg-gray-50 rounded border border-gray-300 flex items-center justify-center opacity-70"
-                    >
-                      <span className="text-gray-500 text-xs">{index + 1}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              {elementsToRender}
-              {caseFrameOverlay}
-            </div>
-          );
-
-        default:
-          return (
-            <div className="w-full h-full relative">
-              {elementsToRender}
-              {caseFrameOverlay}
-            </div>
-          );
-      }
-    };
-
-    return (
-      <div
-        id="canvas-content"
-        ref={canvasRef}
-        className="w-full h-full relative"
-        style={{ backgroundColor: canvasBackgroundColor }}
-        onClick={(e) => {
-          // Deseleccionar elemento si se hace clic en el fondo del lienzo
-          if (
-            e.target === canvasRef.current ||
-            e.target.classList.contains("border-gray-300")
-          ) {
-            onSetActiveElement(null);
-          }
-        }}
-      >
-        {renderLayoutContent()}
-      </div>
-    );
+          ))}
+        </div>
+      );
+    }
   };
 
   return (
