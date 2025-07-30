@@ -17,4 +17,22 @@ body,
   height: 100%;
   object-fit: contain;
   pointer-events: none;
+  z-index: 100 !important; /* Forzar z-index alto */
+}
+
+/* Canvas container styling */
+.canvas-container {
+  height: 500px; /* Altura fija para el canvas */
+  min-height: 500px;
+}
+
+#phone-canvas-container {
+  height: 500px;
+  min-height: 500px;
+}
+
+#single-window-canvas,
+#multiple-window-canvas {
+  height: 100%;
+  min-height: 500px;
 }

@@ -206,15 +206,15 @@ export const caseFrameUrls = {
   "xiaomi-13t": "/images/Fundas/xiaomi-13t-frame.png",
   "xiaomi-redminote12": "/images/Fundas/xiaomi-redminote12-frame.png",
   "xiaomi-poco-f5": "/images/Fundas/xiaomi-poco-f5-frame.png",
-  // Rutas de Fundas para iPhone basadas en tu captura de pantalla
-  "iphone-15promax": "/images/Fundas/15proMax.png",
-  "iphone-15pro": "/images/Fundas/15pro.png",
-  "iphone-15plus": "/images/Fundas/15plus.png",
-  "iphone-15": "/images/Fundas/15.png",
-  "iphone-14": "/images/Fundas/14.png",
-  "iphone-13": "/images/Fundas/13.png",
-  "iphone-12": "/images/Fundas/12.png", // Usando 12.png
-  "iphone-11": "/images/Fundas/11.png",
+  // Rutas de Fundas para iPhone basadas en los archivos disponibles
+  "iphone-15promax": "/images/Fundas/Iphone/15proMax.png",
+  "iphone-15pro": "/images/Fundas/Iphone/15pro.png",
+  "iphone-15plus": "/images/Fundas/Iphone/15.png", // Usando el archivo 15.png para 15 plus
+  "iphone-15": "/images/Fundas/Iphone/15.png",
+  "iphone-14": "/images/Fundas/Iphone/14.png",
+  "iphone-13": "/images/Fundas/Iphone/13.png",
+  "iphone-12": "/images/Fundas/Iphone/12.png",
+  "iphone-11": "/images/Fundas/Iphone/11.png",
   "lg-velvet": "/images/Fundas/lg-velvet-frame.png",
   "lg-wing": "/images/Fundas/lg-wing-frame.png",
   "lg-v60": "/images/Fundas/lg-v60-frame.png",
